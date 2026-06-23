@@ -473,14 +473,43 @@
 
   <script>
   (function () {
-    // ── Контекст: эта секция живёт внутри shadow root <article-section>,
-    //    а не в обычном document — поэтому ищем элементы через root, не document.
-    const root = (document.currentScript && document.currentScript.getRootNode()) || document;
-    const host = root.host || null; // сам <article-section>, если мы внутри shadow DOM
+    // ============================================================
+    //  ИСПРАВЛЕННЫЙ БЛОК: ОПРЕДЕЛЕНИЕ КОРНЕВОГО УЗЛА (SHADOW ROOT)
+    // ============================================================
+    let root = document;
+    let host = null;
 
-    // ── Снимаем глобальные обработчики (document/window) от предыдущей
-    //    активации этой же секции — иначе при каждом повторном заходе
-    //    на страницу плеера обработчики keydown/click накапливаются.
+    const script = document.currentScript;
+    if (script) {
+      const possibleRoot = script.getRootNode();
+      if (possibleRoot !== document) {
+        // Скрипт выполняется внутри Shadow DOM (например, через <template>)
+        root = possibleRoot;
+        host = root.host || null;
+      } else {
+        // Скрипт выполняется глобально – ищем <article-section> в основном DOM
+        const articleSection = document.querySelector('article-section');
+        if (articleSection && articleSection.shadowRoot) {
+          root = articleSection.shadowRoot;
+          host = articleSection;
+        }
+      }
+    } else {
+      // Если document.currentScript отсутствует (eval или динамический импорт)
+      const articleSection = document.querySelector('article-section');
+      if (articleSection && articleSection.shadowRoot) {
+        root = articleSection.shadowRoot;
+        host = articleSection;
+      }
+    }
+
+    // ── Базовый путь к ресурсам (video.mp4, video.txt) ──────────────
+    let basePath = './';
+    if (host && host.getAttribute('src')) {
+      basePath = '/ai/' + host.getAttribute('src').replace(/[^/]+$/, '');
+    }
+
+    // ── Очистка предыдущих обработчиков (предотвращает дублирование) ──
     if (host && host.__playerAbort) {
       host.__playerAbort.abort();
     }
@@ -488,15 +517,11 @@
     if (host) host.__playerAbort = abortController;
     const { signal } = abortController;
 
-    // ── Базовый путь к ресурсам статьи (video.mp4, video.txt) —
-    //    вычисляем из src секции, а не хардкодим относительный путь,
-    //    который иначе резолвился бы от URL главной страницы SPA.
-    let basePath = './';
-    if (host && host.getAttribute('src')) {
-      basePath = '/ai/' + host.getAttribute('src').replace(/[^/]+$/, '');
-    }
+    // ============================================================
+    //  ДАЛЬШЕ ИДЁТ ОРИГИНАЛЬНАЯ ЛОГИКА, НО С ИСПОЛЬЗОВАНИЕМ `root`
+    // ============================================================
 
-    // Элементы DOM
+    // Элементы DOM (ищем через root)
     const canvas = root.querySelector('#canvas');
     const ctx = canvas.getContext('2d');
     const btnBack = root.querySelector('#btnBack');
@@ -787,12 +812,12 @@
     }, { signal });
 
     // === Обработка кликов по канвасу (полоса прокрутки) ===
-canvas.addEventListener('mousedown', (e) => {
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-  const mouseX = (e.clientX - rect.left) * scaleX;
-  const mouseY = (e.clientY - rect.top) * scaleY;
+    canvas.addEventListener('mousedown', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const mouseX = (e.clientX - rect.left) * scaleX;
+      const mouseY = (e.clientY - rect.top) * scaleY;
       
       const videoWidth = canvas.width - scrollbar.width - scrollbar.padding * 2;
       const scrollbarX = videoWidth + scrollbar.padding;
@@ -824,12 +849,12 @@ canvas.addEventListener('mousedown', (e) => {
     });
 
     // Перетаскивание ползунка на канвасе
-function onCanvasDrag(e) {
-  if (!scrollbar.isDragging) return;
-  
-  const rect = canvas.getBoundingClientRect();
-  const scaleY = canvas.height / rect.height;
-  const mouseY = (e.clientY - rect.top) * scaleY;
+    function onCanvasDrag(e) {
+      if (!scrollbar.isDragging) return;
+      
+      const rect = canvas.getBoundingClientRect();
+      const scaleY = canvas.height / rect.height;
+      const mouseY = (e.clientY - rect.top) * scaleY;
       
       const videoWidth = canvas.width - scrollbar.width - scrollbar.padding * 2;
       const scrollbarY = scrollbar.padding;
@@ -856,12 +881,12 @@ function onCanvasDrag(e) {
     }
 
     // === Наведение мыши на полосу ===
-canvas.addEventListener('mousemove', (e) => {
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-  const mouseX = (e.clientX - rect.left) * scaleX;
-  const mouseY = (e.clientY - rect.top) * scaleY;
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const mouseX = (e.clientX - rect.left) * scaleX;
+      const mouseY = (e.clientY - rect.top) * scaleY;
       
       const videoWidth = canvas.width - scrollbar.width - scrollbar.padding * 2;
       const scrollbarX = videoWidth + scrollbar.padding;
