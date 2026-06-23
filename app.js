@@ -226,13 +226,12 @@ class PortalShell extends HTMLElement {
         'content/articles/home/c.html',
       ],
       dev: [
-        'content/articles/dev/market.html',
         'content/articles/dev/a.html',
         'content/articles/dev/b.html',
         'content/articles/dev/c.html',
       ],
       player: [
-        'content/articles/home/index.html',
+        'content/articles/player/index.html',
       ],
     };
 
