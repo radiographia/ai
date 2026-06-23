@@ -146,7 +146,7 @@ class PortalShell extends HTMLElement {
         <ul>
           <li><a href="#home">Главная</a></li>
           <li><a href="#dev">Направления</a></li>
-          <li><a href="#about">О нас</a></li>
+          <li><a href="#player">Плеер</a></li>
         </ul>
       </nav>
 
@@ -231,8 +231,8 @@ class PortalShell extends HTMLElement {
         'content/articles/dev/b.html',
         'content/articles/dev/c.html',
       ],
-      about: [
-        'content/articles/home/a.html',
+      player: [
+        'content/articles/home/index.html',
       ],
     };
 
