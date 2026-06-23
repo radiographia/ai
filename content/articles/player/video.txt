@@ -1,24 +1,11 @@
-00:00 - T2 cor abdomen
-00:36 - T1 cor abdomen
-02:20 - T2 cor FS abdomen
-02:56 - T2 tra abdomen
-03:26 - T2 tra abdomen
-03:56 - T1 tra in-opp phase abdomen
-04:56 - T1 tra in-opp phase abdomen
-05:56 - T2 sag abdomen
-06:47 - DWI tra abdomen
-08:17 - DWI tra abdomen_ADC
-08:47 - DWI tra abdomen
-10:17 - DWI tra abdomen_ADC
-10:47 - T1 TRA FS DYN PRE
-12:31 - T1 TRA FS DYN POST
-14:15 - T1 TRA FS DYN POST
-15:59 - T1 TRA FS DYN POST
-17:43 - T1 TRA FS DYN POST
-19:27 - T1 TRA FS DYN POST
-21:11 - T1 TRA FS DYN POST
-22:55 - T1 TRA FS DYN POST
-24:39 - T1 TRA FS DYN POST_SUB_MIP_COR
-24:45 - T1 cor FS abdomen CE
-26:05 - T1 sag FS abdomen CE
-27:49 - T1 TRA FS DYN POST DELAY
+00:00:00 - localizer
+00:00:06 - t1_fl3d_sag_iso_1.0
+00:02:14 - t2_tse_tra_512
+00:02:44 - t2_tirm_tra_dark-fluid_320
+00:03:14 - t2_tse_COR_512
+00:03:54 - TOF
+00:05:36 - TOF_MIP_TRA
+00:05:37 - TOF_MIP_COR
+00:05:38 - TOF_MIP_SAG
+00:05:39 - ep2d_diff_3scan_trace_p2_TRACEW
+00:06:39 - ep2d_diff_3scan_trace_p2_ADC
