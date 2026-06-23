@@ -1,0 +1,36 @@
+<style>
+  .section {
+    min-height: 200vh;
+    padding: 4rem;
+    /* --- ЗАМЕНА НА ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ --- */
+    background-color: var(--bg-color);  
+    color: var(--text-color);        
+    border-bottom: 1px solid var(--border-color); 
+    
+    /* Плавная смена цветов при переключении темы */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    
+    font-family: system-ui, sans-serif;
+  }
+  p { font-size: 1.2rem; line-height: 1.6; margin-bottom: 2rem; }
+ 
+</style>
+
+<div class="section">
+  <p>
+    Технический отчет показывает рост точности MedGemma на медицинских задачах:
+    классификация рентгеновских снимков +15–18%.
+  </p>
+
+  <p>
+    Для обработки изображений Google использует MedSigLIP — специализированный медицинский кодировщик.
+  </p>
+
+  <p>
+    Ранее Google
+    <a target="_blank" href="https://incrussia.ru/news/google-otkryla-dostup-k-modeli-dlya-generatsii-video-veo-3-fast-po-vsemu-miru/">
+      открыл
+    </a>
+    доступ к Veo 3 Fast.
+  </p>
+</div>

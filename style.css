@@ -1,0 +1,31 @@
+/* Сброс отступов и box-sizing для всего документа */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  /* Фон и цвет текста берутся из CSS-переменных,
+     установленных темой (theme-controller.js) */
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  /* На случай, если тема не загрузилась мгновенно */
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* Дополнительно — сглаживание шрифтов */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

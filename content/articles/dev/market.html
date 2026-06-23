@@ -1,0 +1,440 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #0D1630;
+    background: #ffffff;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 60px 40px 80px;
+  }
+
+  .doc-header {
+    border-bottom: 2px solid #3B4AE8;
+    padding-bottom: 32px;
+    margin-bottom: 48px;
+  }
+  .doc-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: #3B4AE8;
+    margin-bottom: 12px;
+  }
+  .doc-title {
+    font-size: 32px; font-weight: 700; letter-spacing: -0.8px;
+    line-height: 1.2; color: #0D1630; margin-bottom: 10px;
+  }
+  .doc-subtitle { font-size: 17px; color: #5A6480; margin-bottom: 20px; }
+  .doc-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+  .meta-item { font-size: 13px; color: #5A6480; }
+  .meta-item strong { color: #0D1630; }
+
+  .logo-badge {
+    display: inline-block;
+    background: #3B4AE8; color: white;
+    font-size: 11px; font-weight: 700; line-height: 1.3;
+    padding: 6px 10px; border-radius: 7px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 20px; font-weight: 700; color: #0D1630;
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #E2E5F0;
+  }
+  h3 { font-size: 16px; font-weight: 600; color: #0D1630; margin: 28px 0 10px; }
+  p { margin-bottom: 14px; color: #0D1630; }
+  p.muted { color: #5A6480; font-size: 14px; }
+
+  .math-block {
+    background: #F7F8FC;
+    border-left: 3px solid #3B4AE8;
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .math-block .label {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #3B4AE8;
+    margin-bottom: 10px;
+  }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    margin: 20px 0; font-size: 14px;
+  }
+  thead tr { background: #3B4AE8; color: white; }
+  thead th { padding: 12px 16px; text-align: left; font-weight: 600; font-size: 13px; }
+  tbody tr:nth-child(even) { background: #F7F8FC; }
+  tbody td { padding: 12px 16px; border-bottom: 1px solid #E2E5F0; vertical-align: top; }
+  tbody td:first-child { font-weight: 600; color: #3B4AE8; white-space: nowrap; }
+
+  .score-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    margin: 20px 0;
+  }
+  .score-card {
+    border: 1px solid #E2E5F0; border-radius: 10px;
+    padding: 20px; text-align: center;
+  }
+  .score-card .axis-name {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #5A6480; margin-bottom: 8px;
+  }
+  .score-card .axis-val {
+    font-size: 40px; font-weight: 700; color: #3B4AE8;
+    line-height: 1; margin-bottom: 6px;
+  }
+  .score-card .axis-label { font-size: 13px; color: #0D1630; font-weight: 500; }
+
+  .result-card {
+    background: linear-gradient(135deg, #3B4AE8 0%, #2C3AA0 100%);
+    border-radius: 12px; padding: 28px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px; margin: 24px 0; flex-wrap: wrap;
+  }
+  .result-card .r-label { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
+  .result-card .r-val { font-size: 48px; font-weight: 700; color: white; line-height: 1; }
+  .result-card .r-desc { font-size: 14px; color: rgba(255,255,255,0.85); max-width: 340px; line-height: 1.55; }
+
+  .condition-box {
+    background: #F0F2FF;
+    border: 1px solid #C5C9F0;
+    border-radius: 8px; padding: 16px 20px;
+    margin: 16px 0; font-size: 14px;
+  }
+  .condition-box strong { color: #3B4AE8; }
+
+  .sens-table td:nth-child(2),
+  .sens-table td:nth-child(3),
+  .sens-table td:nth-child(4) { text-align: center; }
+  .tag-low { color: #C0392B; font-weight: 600; }
+  .tag-mid { color: #E67E22; font-weight: 600; }
+  .tag-high { color: #27AE60; font-weight: 600; }
+
+  .conclusion {
+    background: #F7F8FC; border-radius: 12px;
+    padding: 28px 32px; margin-top: 48px;
+    border: 1px solid #E2E5F0;
+  }
+  .conclusion h3 { margin-top: 0; font-size: 17px; }
+  .conclusion ul { padding-left: 20px; }
+  .conclusion li { margin-bottom: 8px; font-size: 14px; color: #0D1630; }
+
+  .doc-footer {
+    margin-top: 64px; padding-top: 20px;
+    border-top: 1px solid #E2E5F0;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: #5A6480;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 32px 20px 60px; }
+    .score-grid { grid-template-columns: 1fr; }
+    .result-card { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="logo-badge">SayWord<br>Medicine</div>
+  <div class="doc-label">Аналитическая записка · Маркетинг &amp; Стратегия</div>
+  <h1 class="doc-title">Модель трёх векторов ценности<br>применительно к продвижению SayWord</h1>
+  <p class="doc-subtitle">Формальное описание модели и анализ перспектив внедрения продукта на рынок медицинской радиологии</p>
+  <div class="doc-meta">
+    <div class="meta-item"><strong>Продукт:</strong> SayWord Medicine — ИИ-диктовщик для радиологов</div>
+    <div class="meta-item"><strong>Версия:</strong> 1.0</div>
+    <div class="meta-item"><strong>Аудитория:</strong> Руководство, инвесторы, ЛПР клиник</div>
+  </div>
+</div>
+
+
+<!-- 1. Постановка -->
+<h2>1. Постановка модели</h2>
+
+<p>Предлагается рассматривать <strong>воспринимаемую ценность</strong> продукта для конкретного потребителя (врача, клиники) как векторную величину в трёхмерном декартовом пространстве. Каждая ось соответствует одному из трёх базовых факторов принятия ценности:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ось</th>
+      <th>Фактор</th>
+      <th>Смысловое содержание</th>
+      <th>Примеры для SayWord</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$\vec{e}_x$</td>
+      <td><strong>Текущий контекст</strong> $C$</td>
+      <td>Насколько внешняя среда благоприятна для внедрения: инфраструктура, регуляторика, позиция руководства, бюджетный цикл</td>
+      <td>Клиника уже использует МИС; главный врач поддерживает автоматизацию; есть статья бюджета на IT</td>
+    </tr>
+    <tr>
+      <td>$\vec{e}_y$</td>
+      <td><strong>Потребность</strong> $N$</td>
+      <td>Острота проблемы, которую решает продукт: насколько велики потери без него</td>
+      <td>Радиолог тратит 3+ часа на документацию; отделение перегружено; высокий риск ошибок из-за усталости</td>
+    </tr>
+    <tr>
+      <td>$\vec{e}_z$</td>
+      <td><strong>Мотивация</strong> $M$</td>
+      <td>Личная и организационная готовность к изменению: желание освоить новое, доверие к ИИ, карьерная выгода</td>
+      <td>Врач молод и открыт к технологиям; руководство ставит KPI по скорости оборота исследований</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Каждый фактор нормируется на интервале $[0, 1]$, где $0$ — полное отсутствие, $1$ — максимальная выраженность. Длина вектора вдоль оси равна численному значению фактора.</p>
+
+
+<!-- 2. Математическое определение -->
+<h2>2. Математическое определение результирующего вектора</h2>
+
+<p>Три компонентных вектора в базисе $(\vec{e}_x, \vec{e}_y, \vec{e}_z)$:</p>
+
+<div class="math-block">
+  <div class="label">Определение компонент</div>
+  $$\vec{V}_C = C\,\vec{e}_x, \qquad \vec{V}_N = N\,\vec{e}_y, \qquad \vec{V}_M = M\,\vec{e}_z$$
+</div>
+
+<p>Результирующий вектор ценности $\vec{V}$ есть их сумма:</p>
+
+<div class="math-block">
+  <div class="label">Результирующий вектор</div>
+  $$\vec{V} = \vec{V}_C + \vec{V}_N + \vec{V}_M = C\,\vec{e}_x + N\,\vec{e}_y + M\,\vec{e}_z$$
+</div>
+
+<p>Его <strong>модуль</strong> (скалярная величина воспринимаемой ценности):</p>
+
+<div class="math-block">
+  <div class="label">Модуль результирующего вектора</div>
+  $$|\vec{V}| = \sqrt{C^2 + N^2 + M^2}$$
+  <p style="margin-top:10px; font-size:13px; color:var(--muted);">Максимально возможное значение: $|\vec{V}|_{\max} = \sqrt{3} \approx 1{,}73$ при $C = N = M = 1$</p>
+</div>
+
+<p>Направление вектора задаётся <strong>направляющими косинусами</strong>:</p>
+
+<div class="math-block">
+  <div class="label">Направляющие косинусы</div>
+  $$\cos\alpha = \frac{C}{|\vec{V}|}, \qquad \cos\beta = \frac{N}{|\vec{V}|}, \qquad \cos\gamma = \frac{M}{|\vec{V}|}$$
+  <p style="margin-top:10px; font-size:13px; color:var(--muted);">Выполняется тождество: $\cos^2\alpha + \cos^2\beta + \cos^2\gamma = 1$</p>
+</div>
+
+<p class="muted">Направление вектора показывает, <em>за счёт какого фактора</em> формируется ценность. Два продукта с одинаковым модулем, но разным направлением требуют принципиально разных маркетинговых стратегий.</p>
+
+
+<!-- 3. Оценка для SayWord -->
+<h2>3. Оценка компонент для SayWord Medicine</h2>
+
+<p>Ниже приведены экспертные оценки на основе анализа рынка медицинской радиологии России (2024–2025). Шкала $[0, 1]$.</p>
+
+<div class="score-grid">
+  <div class="score-card">
+    <div class="axis-name">Ось X · Контекст</div>
+    <div class="axis-val">0,75</div>
+    <div class="axis-label">Благоприятная среда</div>
+  </div>
+  <div class="score-card">
+    <div class="axis-name">Ось Y · Потребность</div>
+    <div class="axis-val">0,90</div>
+    <div class="axis-label">Высокая острота</div>
+  </div>
+  <div class="score-card">
+    <div class="axis-name">Ось Z · Мотивация</div>
+    <div class="axis-val">0,65</div>
+    <div class="axis-label">Умеренная готовность</div>
+  </div>
+</div>
+
+<h3>Обоснование оценок</h3>
+
+<p><strong>Контекст (C = 0,75).</strong> Государственная программа цифровизации здравоохранения создаёт регуляторный попутный ветер. Большинство крупных клиник уже внедрили МИС и привыкли к интеграции внешних IT-решений. Сдерживающий фактор — бюджетные циклы в госсекторе и консерватизм части главных врачей. В коммерческих клиниках контекст ещё более благоприятен.
+
+<p><strong>Потребность (N = 0,90).</strong> Наиболее сильный вектор. Задокументированные потери: 2–4 часа ежедневно на документацию при норме 8-часовой смены, высокий процент ошибок сторонности и пропущенных полей при работе под нагрузкой. Проблема универсальная, не зависит от размера клиники или региона.</p>
+
+<p><strong>Мотивация (M = 0,65).</strong> Молодые радиологи (до 40 лет) готовы к освоению ИИ-инструментов, старшее поколение проявляет скептицизм. Ключевой мотиватор — возможность уйти домой вовремя и снять тревогу об ошибках. Риск: часть врачей воспринимает автоматизацию как угрозу профессиональному статусу.</p>
+
+<h3>Вычисление результирующего вектора</h3>
+
+<div class="math-block">
+  <div class="label">Расчёт</div>
+  $$|\vec{V}| = \sqrt{(0{,}75)^2 + (0{,}90)^2 + (0{,}65)^2} = \sqrt{0{,}5625 + 0{,}8100 + 0{,}4225} = \sqrt{1{,}795} \approx 1{,}34$$
+</div>
+
+<div class="result-card">
+  <div>
+    <div class="r-label">Результирующий вектор ценности</div>
+    <div class="r-val">|V| = 1,34</div>
+  </div>
+  <div class="r-desc">Из максимально возможных 1,73 — продукт находится в зоне <strong>высокой рыночной готовности</strong>. Соотношение к максимуму: 77%. Доминирующий фактор — потребность (ось Y, cosβ = 0,67).</div>
+</div>
+
+<div class="math-block">
+  <div class="label">Направляющие косинусы — доля каждого фактора в результирующей ценности</div>
+  $$\cos\alpha = \frac{0{,}75}{1{,}34} \approx 0{,}56 \quad (\text{Контекст})$$
+  $$\cos\beta = \frac{0{,}90}{1{,}34} \approx 0{,}67 \quad (\text{Потребность — доминирует})$$
+  $$\cos\gamma = \frac{0{,}65}{1{,}34} \approx 0{,}49 \quad (\text{Мотивация — наиболее слабый вектор})$$
+</div>
+
+
+<!-- 4. Анализ чувствительности -->
+<h2>4. Анализ чувствительности: «что если»</h2>
+
+<p>Модель позволяет предсказать, как изменится результирующая ценность при целевых маркетинговых воздействиях.</p>
+
+<table class="sens-table">
+  <thead>
+    <tr>
+      <th>Сценарий воздействия</th>
+      <th>C</th>
+      <th>N</th>
+      <th>M</th>
+      <th>|V|</th>
+      <th>Изменение</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Базовый</strong> (текущая оценка)</td>
+      <td>0,75</td>
+      <td>0,90</td>
+      <td>0,65</td>
+      <td>1,34</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Вебинар + кейсы усиливают мотивацию до 0,85</td>
+      <td>0,75</td>
+      <td>0,90</td>
+      <td class="tag-high">0,85</td>
+      <td class="tag-high">1,47</td>
+      <td class="tag-high">+10%</td>
+    </tr>
+    <tr>
+      <td>Партнёрство с МИС улучшает контекст до 0,90</td>
+      <td class="tag-high">0,90</td>
+      <td>0,90</td>
+      <td>0,65</td>
+      <td class="tag-high">1,43</td>
+      <td class="tag-high">+7%</td>
+    </tr>
+    <tr>
+      <td>Оба воздействия одновременно</td>
+      <td class="tag-high">0,90</td>
+      <td>0,90</td>
+      <td class="tag-high">0,85</td>
+      <td class="tag-high">1,55</td>
+      <td class="tag-high">+16%</td>
+    </tr>
+    <tr>
+      <td>Консервативная клиника: контекст падает до 0,40</td>
+      <td class="tag-low">0,40</td>
+      <td>0,90</td>
+      <td>0,65</td>
+      <td class="tag-mid">1,17</td>
+      <td class="tag-low">−13%</td>
+    </tr>
+    <tr>
+      <td>Клиника без перегрузки: потребность падает до 0,40</td>
+      <td>0,75</td>
+      <td class="tag-low">0,40</td>
+      <td>0,65</td>
+      <td class="tag-mid">1,04</td>
+      <td class="tag-low">−22%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="condition-box">
+  <strong>Ключевой вывод из анализа чувствительности:</strong> Снижение потребности (ось Y) даёт наибольшие потери ценности. Это означает, что маркетинговая коммуникация должна в первую очередь <em>актуализировать проблему</em> — показывать реальные потери времени и риски ошибок, — а затем уже предлагать решение.
+</div>
+
+
+<!-- 5. Условие нулевой ценности -->
+<h2>5. Условие нулевой и максимальной ценности</h2>
+
+<p><strong>Нулевая ценность.</strong> Даже при высоких значениях двух факторов, обнуление любого одного компонента существенно снижает модуль. Полный ноль достигается только при $C = N = M = 0$, что в реальности невозможно. Однако:</p>
+
+<div class="math-block">
+  <div class="label">Практическое условие неприемлемо низкой ценности</div>
+  $$|\vec{V}| < 0{,}5 \implies \text{продукт не пройдёт порог принятия решения}$$
+  <p style="margin-top:10px; font-size:13px; color:var(--muted);">Например: $C=0{,}2,\ N=0{,}3,\ M=0{,}3 \Rightarrow |\vec{V}| = 0{,}47$ — внедрение не состоится.</p>
+</div>
+
+<p><strong>Максимальная ценность</strong> достигается при всех компонентах равных 1:</p>
+
+<div class="math-block">
+  <div class="label">Максимум</div>
+  $$|\vec{V}|_{\max} = \sqrt{1^2+1^2+1^2} = \sqrt{3} \approx 1{,}73$$
+  <p style="margin-top:10px; font-size:13px; color:var(--muted);">SayWord сейчас на уровне $1{,}34 / 1{,}73 = 77\%$ от теоретического максимума — сильная рыночная позиция.</p>
+</div>
+
+
+<!-- 6. Сегментирование -->
+<h2>6. Применение модели к сегментированию клиентской базы</h2>
+
+<p>Модель позволяет разбить потенциальных клиентов на сегменты по профилю вектора и выбрать для каждого оптимальный маркетинговый подход:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Сегмент</th>
+      <th>Профиль (C, N, M)</th>
+      <th>Стратегия</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Идеальный клиент</strong></td>
+      <td>Высокие C, N, M (&gt; 0,7 по каждой)</td>
+      <td>Прямой выход, пилот без давления. Коммерческие многопрофильные клиники с молодым коллективом</td>
+    </tr>
+    <tr>
+      <td><strong>Дрейфующий</strong><br>(низкая M)</td>
+      <td>C=0,8, N=0,9, M=0,4</td>
+      <td>Вебинары, кейсы, визиты «посмотреть в деле». Нужно дать опыт прикосновения к продукту, снять страх</td>
+    </tr>
+    <tr>
+      <td><strong>Заблокированный</strong><br>(низкий C)</td>
+      <td>C=0,3, N=0,9, M=0,7</td>
+      <td>Работа с руководством клиники, а не с врачом. Письмо главному врачу, участие в конкурсах цифровизации, демо для ЛПР</td>
+    </tr>
+    <tr>
+      <td><strong>Спящий</strong><br>(низкая N)</td>
+      <td>C=0,8, N=0,3, M=0,6</td>
+      <td>Нецелевой сегмент сейчас. Клиника с малым объёмом исследований. Вернуться при росте нагрузки</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- Заключение -->
+<div class="conclusion">
+  <h3>Выводы и рекомендации</h3>
+  <ul>
+    <li>Результирующий вектор ценности SayWord составляет <strong>|V| ≈ 1,34 из 1,73</strong> — продукт находится в зоне высокой рыночной готовности.</li>
+    <li>Наиболее сильный компонент — <strong>потребность</strong> (N = 0,90). Маркетинг должен начинаться с демонстрации проблемы, а не решения.</li>
+    <li>Наиболее слабый компонент — <strong>мотивация</strong> (M = 0,65). Именно здесь сосредоточен главный рычаг роста: вебинары, live-демо, референции коллег дадут прибавку до +10–16% к результирующей ценности.</li>
+    <li>Сегмент «Заблокированный» требует <strong>отдельного B2B-трека</strong> — работы с администрацией клиник, а не с конечными пользователями.</li>
+    <li>Модель рекомендуется использовать как <strong>квалификационную матрицу</strong> в отделе продаж: перед выходом на переговоры оценивать C, N, M по чеклисту и прогнозировать вероятность сделки через |V|.</li>
+  </ul>
+</div>
+
+<div class="doc-footer">
+  <span>SayWord Medicine · Конфиденциально</span>
+  <span>Версия 1.0 · 2025</span>
+</div>

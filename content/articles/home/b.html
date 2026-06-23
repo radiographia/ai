@@ -1,0 +1,47 @@
+<style>
+  .section {
+    min-height: 100vh; /* два экрана */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+
+    /*padding: 4rem;*/
+    box-sizing: border-box;
+
+    /* --- ЗАМЕНА НА ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ --- */
+    background-color: var(--bg-color);    
+    color: var(--text-color);          
+    border-bottom: 1px solid var(--border-color); 
+    
+    /* Плавная смена цветов при переключении темы */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    
+    font-family: system-ui, sans-serif;
+  }
+
+  .section h1, h2, h3 {
+    /*font-size: 3rem;*/
+    margin: 0;
+    /* Заголовок делаем акцентным цветом (красный/бордо) */
+    color: var(--accent-color); 
+  }
+
+  .section p {
+    font-size: 1.3rem;
+    max-width: 60ch;
+    line-height: 1.6;
+  }
+
+  .spacer {
+    height: 100vh;
+  }
+  img {
+    width: 100%;
+  }
+</style>
+
+<div class="section">
+<img src="/sayword/assets/img/orthanc1.png">
+   <img src="/sayword/assets/img/minio.png">
+</div>
