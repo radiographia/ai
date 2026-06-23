@@ -554,25 +554,48 @@
     }
   }
 
-  function parseBookmarks(text) {
-    const lines = text.split('\n');
-    bookmarks = lines
-      .map(line => line.trim())
-      .filter(line => line)
-      .map(line => {
-        const match = line.match(/^(\d{2}):(\d{2})\s*-\s*(.+)$/);
-        if (match) {
-          const minutes = parseInt(match[1]);
-          const seconds = parseInt(match[2]);
-          const timeInSeconds = minutes * 60 + seconds;
-          const description = match[3].trim();
-          return { time: timeInSeconds, frame: timeInSeconds * FPS, description };
-        }
-        return null;
-      })
-      .filter(item => item !== null);
-    renderBookmarkMenu();
+// Парсинг тайм-якорей (поддерживает ЧЧ:ММ:СС и ММ:СС)
+function parseBookmarks(text) {
+  const lines = text.split('\n');
+  bookmarks = lines
+    .map(line => line.trim())
+    .filter(line => line)
+    .map(line => {
+      // Формат ЧЧ:ММ:СС - описание
+      let match = line.match(/^(\d{2}):(\d{2}):(\d{2})\s*-\s*(.+)$/);
+      if (match) {
+        const hours = parseInt(match[1]);
+        const minutes = parseInt(match[2]);
+        const seconds = parseInt(match[3]);
+        const timeInSeconds = hours * 3600 + minutes * 60 + seconds;
+        const description = match[4].trim();
+        return { time: timeInSeconds, frame: timeInSeconds * FPS, description };
+      }
+      // Формат ММ:СС - описание (для обратной совместимости)
+      match = line.match(/^(\d{2}):(\d{2})\s*-\s*(.+)$/);
+      if (match) {
+        const minutes = parseInt(match[1]);
+        const seconds = parseInt(match[2]);
+        const timeInSeconds = minutes * 60 + seconds;
+        const description = match[3].trim();
+        return { time: timeInSeconds, frame: timeInSeconds * FPS, description };
+      }
+      return null;
+    })
+    .filter(item => item !== null);
+  renderBookmarkMenu();
+}
+
+// Форматирование времени для отображения (автоматически выбирает ЧЧ:ММ:СС или ММ:СС)
+function formatTime(seconds) {
+  const hours = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = Math.floor(seconds % 60);
+  if (hours > 0) {
+    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
 
   function renderBookmarkMenu() {
     dropdownMenu.innerHTML = '';
@@ -600,11 +623,7 @@
     }
   }
 
-  function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }
+
 
   function updateActiveBookmark() {
     const menuItems = dropdownMenu.querySelectorAll('.menuItem');
