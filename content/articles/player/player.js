@@ -1,4 +1,3 @@
-  <script>
     // Элементы DOM
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -400,4 +399,3 @@ canvas.addEventListener('mousemove', (e) => {
       console.error('Ошибка загрузки видео:', e);
       alert('Не удалось загрузить видео. Проверьте путь к файлу.');
     });
-  </script>
